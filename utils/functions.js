@@ -14,4 +14,12 @@ async function fetchBackendServer(url, data) {
 	return response;
 }
 
-export { fetchBackendServer };
+async function sendResponse(fetchResponse, res) {
+	if (fetchResponse.status !== 200) {
+		res.status(400);
+	}
+	const message = await fetchResponse.text();
+	res.send(message);
+}
+
+export { fetchBackendServer, sendResponse };
