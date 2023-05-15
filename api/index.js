@@ -54,6 +54,7 @@ if (process.env.PRODUCTION === 'true') {
 	};
 }
 
+app.set('trust proxy', 1);
 app.use(session(sessionOptions));
 app.use(passport.authenticate('session'));
 initializePassport(passport);
