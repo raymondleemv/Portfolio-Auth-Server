@@ -59,7 +59,7 @@ app.use(session(sessionOptions));
 app.use(passport.authenticate('session'));
 initializePassport(passport);
 
-app.use('/', authRouter);
+app.use('/api', authRouter);
 
 let ensureLoggedIn = (req, res, next) => {
 	console.log('ensure logged in middleware');
@@ -72,9 +72,9 @@ let ensureLoggedIn = (req, res, next) => {
 };
 
 app.use(ensureLoggedIn);
-app.use('/projects/', projectsRouter);
-app.use('/careers/', careersRouter);
-app.use('/skills/', skillsRouter);
+app.use('/api/projects/', projectsRouter);
+app.use('/api/careers/', careersRouter);
+app.use('/api/skills/', skillsRouter);
 
 app.get('/protected', (req, res, next) => {
 	console.log(req.sessionID);
