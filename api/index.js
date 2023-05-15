@@ -65,13 +65,17 @@ let ensureLoggedIn = (req, res, next) => {
 	console.log('ensure logged in middleware');
 	if (!req.isAuthenticated()) {
 		console.log('Not Authorized');
-		return res.send('Not Authorized. Please log in first.');
+		return res.status(400).send('Not Authorized. Please log in first.');
 	}
 	console.log('Authorized');
 	next();
 };
 
 app.use(ensureLoggedIn);
+app.post('/api/authentication-status', (req, res, next) => {
+	// if reached here, user is authenticated
+	res.send('Authorized');
+});
 app.use('/api/projects/', projectsRouter);
 app.use('/api/careers/', careersRouter);
 app.use('/api/skills/', skillsRouter);
