@@ -32,10 +32,10 @@ app.use(
 	})
 );
 
-const MONGO_URI = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.j65vffw.mongodb.net/auth-server?retryWrites=true&w=majority`;
+// const MONGO_URI = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.j65vffw.mongodb.net/auth-server?retryWrites=true&w=majority`;
 
 mongoose
-	.connect(MONGO_URI)
+	.connect(process.env.MONGODB_URI)
 	.then(console.log('connected'))
 	.catch((err) => console.log(err));
 
@@ -44,7 +44,7 @@ let sessionOptions = {
 	resave: false,
 	saveUninitialized: false,
 	store: MongoStore.create({
-		mongoUrl: MONGO_URI,
+		mongoUrl: process.env.MONGODB_URI,
 	}),
 };
 
