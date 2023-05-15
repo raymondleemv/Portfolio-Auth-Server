@@ -16,8 +16,8 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3001;
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 app.use(
 	cors({
@@ -62,6 +62,7 @@ initializePassport(passport);
 app.use('/api', authRouter);
 
 let ensureLoggedIn = (req, res, next) => {
+	console.log(req.body);
 	console.log('ensure logged in middleware');
 	if (!req.isAuthenticated()) {
 		console.log('Not Authorized');
@@ -79,16 +80,6 @@ app.post('/api/authentication-status', (req, res, next) => {
 app.use('/api/projects/', projectsRouter);
 app.use('/api/careers/', careersRouter);
 app.use('/api/skills/', skillsRouter);
-
-app.get('/protected', (req, res, next) => {
-	console.log(req.sessionID);
-	console.log('protected route');
-	console.log(`IsAuthenticated ${req.isAuthenticated()}`);
-	if (!req.isAuthenticated()) {
-		return res.send({ message: 'Not Authorized' });
-	}
-	res.send(`Welcome ${req.user.email}`);
-});
 
 app.listen(port, () => {
 	console.log(`app listening on ${port}`);
