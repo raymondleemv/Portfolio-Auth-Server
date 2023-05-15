@@ -1,5 +1,4 @@
 async function fetchBackendServer(url, data) {
-	const BACKEND_SERVER_URL = 'http://localhost:3000';
 	let fetchOptions = {
 		method: 'POST',
 		headers: {
@@ -7,7 +6,10 @@ async function fetchBackendServer(url, data) {
 		},
 		body: JSON.stringify(data),
 	};
-	let response = await fetch(BACKEND_SERVER_URL + url, fetchOptions);
+	let response = await fetch(
+		process.env.BACKEND_SERVER_URL + url,
+		fetchOptions
+	);
 	return response;
 }
 

@@ -20,27 +20,38 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
 	cors({
-		origin: ['http://localhost:5173'],
+		origin:
+			process.env.PRODUCTION === 'true'
+				? 'https://www.raymondleemv.com'
+				: 'http://localhost:5173',
 		credentials: true,
 	})
 );
 
 const MONGO_URI = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.j65vffw.mongodb.net/auth-server?retryWrites=true&w=majority`;
+
 mongoose
 	.connect(MONGO_URI)
 	.then(console.log('connected'))
 	.catch((err) => console.log(err));
 
-app.use(
-	session({
-		secret: 'foo',
-		resave: false,
-		saveUninitialized: false,
-		store: MongoStore.create({
-			mongoUrl: MONGO_URI,
-		}),
-	})
-);
+let sessionOptions = {
+	secret: process.env.SESSION_SECRET,
+	resave: false,
+	saveUninitialized: false,
+	store: MongoStore.create({
+		mongoUrl: MONGO_URI,
+	}),
+};
+
+if (process.env.PRODUCTION === 'true') {
+	sessionOptions.cookie = {
+		secure: true,
+		sameSite: 'none',
+	};
+}
+
+app.use(session(sessionOptions));
 app.use(passport.authenticate('session'));
 initializePassport(passport);
 
