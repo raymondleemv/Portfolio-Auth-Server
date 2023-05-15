@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<div>
+			<h1>Login Page for CMS</h1>
+			<form
+				class="form"
+				action="http://localhost:3001/login"
+				method="POST"
+				onsubmit="(event) => submitHandler(event)"
+			>
+				<div class="form__field">
+					<label class="form__label" htmlFor="email"> Email: </label>
+					<input type="email" name="email" />
+				</div>
+				<div class="form__field">
+					<label class="form__label" htmlFor="password"> Password: </label>
+					<input type="password" name="password" />
+				</div>
+				<button type="submit">Submit</button>
+			</form>
+			<h1>Sign up Page for CMS</h1>
+			<form
+				class="form"
+				action="http://localhost:3001/signup"
+				method="POST"
+				onsubmit="(event) => submitHandler(event)"
+			>
+				<div class="form__field">
+					<label class="form__label" htmlFor="email"> Email: </label>
+					<input type="email" name="email" />
+				</div>
+				<div class="form__field">
+					<label class="form__label" htmlFor="password"> Password: </label>
+					<input type="password" name="password" />
+				</div>
+				<button type="submit">Submit</button>
+			</form>
+			<h1>Fetch protected route</h1>
+			<form
+				class="form"
+				action="http://localhost:3001/protected"
+				method="GET"
+				onsubmit="(event) => submitHandler(event)"
+			>
+				<div class="form__field">
+					<label class="form__label" htmlFor="email"> Email: </label>
+					<input type="email" name="email" />
+				</div>
+				<div class="form__field">
+					<label class="form__label" htmlFor="password"> Password: </label>
+					<input type="password" name="password" />
+				</div>
+				<button type="submit">Submit</button>
+			</form>
+		</div>
+		<script>
+			let forms = document.querySelectorAll('.form');
+			for (let i = 0; i < forms.length; ++i) {
+				forms[i].addEventListener('submit', (event) => submitHandler(event));
+			}
+			function submitHandler(e) {
+				const method = e.target.getAttribute('method');
+				const action = e.target.getAttribute('action');
+				let fetchOptions = {
+					// mode: 'cors',
+					method: method,
+					credentials: 'include',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				};
+				if (e.target.getAttribute('method') === 'POST') {
+					// fetchOptions.body = new URLSearchParams(new FormData(e.target));
+					fetchOptions.body = JSON.stringify({
+						email: e.target.email.value,
+						password: e.target.password.value,
+					});
+				}
+				fetch(action, fetchOptions);
+				e.preventDefault();
+			}
+		</script>
+	</body>
+</html>
