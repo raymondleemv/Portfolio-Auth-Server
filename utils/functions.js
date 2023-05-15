@@ -10,6 +10,7 @@ async function fetchBackendServer(url, data) {
 		process.env.BACKEND_SERVER_URL + url,
 		fetchOptions
 	);
+	console.log(process.env.BACKEND_SERVER_URL + url);
 	return response;
 }
 
