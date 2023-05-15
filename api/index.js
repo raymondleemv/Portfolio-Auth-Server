@@ -32,8 +32,6 @@ app.use(
 	})
 );
 
-// const MONGO_URI = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.j65vffw.mongodb.net/auth-server?retryWrites=true&w=majority`;
-
 mongoose
 	.connect(process.env.MONGODB_URI)
 	.then(console.log('connected'))

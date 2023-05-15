@@ -8,8 +8,8 @@ const router = express.Router();
 router.post(
 	'/login',
 	passport.authenticate('local', {
-		successReturnToOrRedirect: '/login-success',
-		failureRedirect: '/login-failed',
+		successReturnToOrRedirect: '/api/login-success',
+		failureRedirect: '/api/login-failed',
 		failureMessage: true,
 	})
 );
