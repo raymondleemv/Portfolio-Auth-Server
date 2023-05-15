@@ -18,11 +18,15 @@ const port = process.env.PORT || 3001;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 app.use(
 	cors({
 		origin:
 			process.env.PRODUCTION === 'true'
-				? 'https://www.raymondleemv.com'
+				? [
+						'https://www.raymondleemv.com',
+						'https://react-portfolio-git-development-raymondleemv.vercel.app',
+				  ]
 				: 'http://localhost:5173',
 		credentials: true,
 	})
